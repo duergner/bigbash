@@ -216,21 +216,21 @@ For more details, please refer to the [awk documentation](http://www.math.utah.e
 FAQ
 ---
 
-Q: Bigbash is slow on my machine. What can I do to make it faster?
+Q: Bigbash is slow on my machine. What can I do to make it faster?  
 A: Using the `--parallel=<nr of cores>` switch for the sort makes a big difference in most cases (change it in your bigbash.conf).
 The performance of the queries depends on the tools used. Make sure you have updated sort, awk, sed and join to 
 the latest versions. In particular on Mac OS, the default installed core utils are really outdated 
 (look [here](http://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities) 
 for details how to update). Also try different awk implementations, e.g., mawk or gawk.
 
-Q: I can't use BigBash with JSON files, can I?
+Q: I can't use BigBash with JSON files, can I?  
 A: BigBash does not support JSON out of the box, but in some cases you can convert JSON to csv using sed or jq. An example: 
 
     cat persons.json | jq -r '[.name,.address.street,.address.city,.gender]|@csv'
 
 which could be used together with the [RAW mapping](#map-command) type.
 
-Q: Can I directly invoke BigBash with files on S3?
+Q: Can I directly invoke BigBash with files on S3?  
 A: Yes, using the AWS tools. One way is to use a one-liner like this as an input command:
 
     AWS_BUCKET="s3://<bucketname>"; AWS_PATH_PREFIX="<path to look for files>"; AWS_PATTERN="<the regexp file pattern to match>"; aws s3 ls "$AWS_BUCKET/$AWS_PATH_PREFIX" --recursive | sed -n -E 's/.* +[0-9]+ +(.*)/\1/p' | grep "$AWS_PATTERN" | xargs -i aws s3 cp "$AWS_BUCKET/{}" - 
